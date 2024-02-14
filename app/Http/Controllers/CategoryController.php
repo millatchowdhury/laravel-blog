@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -14,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.category.index');
+       $categories=  Category::orderBy('created_at', 'DESC')->paginate(20);
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -39,7 +40,7 @@ class CategoryController extends Controller
             'slug' => Str::slug($request->name, '-'),
             'description' => $request->description
         ]);
-        $request->session()->flush('success', 'Category Created Successfully');
+        Session::flash('success', 'Category Created Successfully');
         return redirect()->back();
     }
 

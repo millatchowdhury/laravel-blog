@@ -36,6 +36,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::get('/dashboard', function(){
         return view('admin.dashboard.index');
     });
+    Route::resource('/category', CategoryController::class);
     
 });
-Route::resource('/category', CategoryController::class);

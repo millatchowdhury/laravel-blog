@@ -16,6 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('admin') }}/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('admin') }}/css/adminlte.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -174,21 +175,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="{{ asset('admin') }}/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">Millat Chowdhury</a>
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+   
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -203,29 +194,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
-                </a>
-              </li>
-            </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
-              </p>
+          <li class="nav-item mt-auto">
+            <a href="{{ route('category.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-tags"></i>
+              <p>Categories</p>
             </a>
+          </li>
+          <li class="nav-item mt-auto bg-danger">
+            {{-- <a href="{{ route('logout') }}" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Logout</p>
+            </a> --}}
+            
+              <a class="nav-link" href="{{ route('logout') }}"
+                 onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                  {{ __('Logout') }}
+              </a>
+
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  @csrf
+              </form>
+          
           </li>
         </ul>
       </nav>
@@ -272,5 +263,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('admin') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('admin') }}/js/adminlte.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+  @if (Session::has('success'))
+    toastr.success("{{ Session::get('success') }}");
+  @endif
+</script>
 </body>
 </html>
