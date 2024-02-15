@@ -33,7 +33,7 @@ class CategoryController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:categories,name'
-        ]);
+        ]); 
          
         $category = Category::create([
             'name' => $request->name,
@@ -57,7 +57,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -65,7 +65,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $this->validate($request, [
+            'name' => "required|unique:categories,name,$category->name"
+        ]); 
+         $category->name = $request->name;
+         $category->slug = Str::slug($request->name, '-');
+         $category->description = $request->description;
+         $category->save();
+        
+        Session::flash('success', 'Category updated Successfully');
+        return redirect()->back();
     }
 
     /**
@@ -73,6 +82,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        if($category){
+            Session::flash('success', 'Category Deleted Successfully');
+            return redirect()->route('category.index');
+        }
     }
 }
